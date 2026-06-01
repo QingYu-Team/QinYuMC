@@ -1,0 +1,92 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFrameworks>net10.0;net48</TargetFrameworks>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>true</ImplicitUsings>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <AvaloniaVersion>11.3.14</AvaloniaVersion>
+        <PublishType>normal</PublishType>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <Copyright>Copyright © 2026 Muyuxi. All rights reserved.</Copyright>
+      <Product>QinYuMC</Product>
+    </PropertyGroup>
+
+    <!-- Publish Type Options -->
+    <PropertyGroup Condition="'$(PublishType)' == 'normal'">
+        <PublishSingleFile>true</PublishSingleFile>
+        <SelfContained>false</SelfContained>
+        <PublishReadyToRun>true</PublishReadyToRun>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(PublishType)' == 'trimmed'">
+        <PublishSingleFile>true</PublishSingleFile>
+        <SelfContained>true</SelfContained>
+        <PublishTrimmed>true</PublishTrimmed>
+        <PublishReadyToRun>true</PublishReadyToRun>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(PublishType)' == 'native'">
+        <PublishAot>true</PublishAot>
+        <!-- Necessary before Avalonia 12.0, was used for accessiblity APIs -->
+        <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
+    </PropertyGroup>
+
+    <!-- Debug Symbol Options -->
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="FlowNet.Core" />
+    </ItemGroup>
+
+    <!-- Packages -->
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)">
+            <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+            <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+        <PackageReference Include="FlowNet.Core" Version="0.1.4" />
+    </ItemGroup>
+
+    <!-- Localization -->
+    <ItemGroup>
+        <EmbeddedResource Update="Resources\Strings.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Strings.*.resx">
+            <DependentUpon>Strings.resx</DependentUpon>
+        </EmbeddedResource>
+        <Compile Update="Resources\Strings.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Strings.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\QinYuMC.Core\QinYuMC.Core.csproj" />
+      <ProjectReference Include="..\QinYuMC.RpcService\QinYuMC.RpcService.csproj" />
+      <ProjectReference Include="..\QinYuMC.RuntimeInterops\QinYuMC.RuntimeInterops.csproj" />
+      <ProjectReference Include="..\QinYuMC.NBTResolver\QinYuMC.NBTResolver.csproj" />
+    </ItemGroup>
+</Project>

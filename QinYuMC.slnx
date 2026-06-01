@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="QinYuMC.App/QinYuMC.App.csproj" />
+  <Project Path="QinYuMC.Core/QinYuMC.Core.csproj" />
+  <Project Path="QinYuMC.NBTResolver/QinYuMC.NBTResolver.csproj" />
+  <Project Path="QinYuMC.RpcService/QinYuMC.RpcService.csproj" />
+  <Project Path="QinYuMC.RuntimeInterops/QinYuMC.RuntimeInterops.csproj" />
+</Solution>
