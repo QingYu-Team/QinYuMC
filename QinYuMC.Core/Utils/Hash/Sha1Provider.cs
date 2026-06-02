@@ -32,13 +32,28 @@ public class Sha1Provider: IHashProvider
 
     public async Task<byte[]> ComputeHashAsync(Stream stream, CancellationToken? token = null)
     {
+        token ??= CancellationToken.None;
         using var sha1 = SHA1.Create();
-        return await sha1.ComputeHashAsync(stream, token ?? CancellationToken.None);
+#if NET8_0_OR_GREATER
+        return await sha1.ComputeHashAsync(stream, token).ConfigureAwait(false);
+#else
+        var data = new byte[16384];
+        while (true)
+        {
+            token.Value.ThrowIfCancellationRequested();
+            var readed = await stream.ReadAsync(data, 0, data.Length, token.Value).ConfigureAwait(false);
+            if (readed == 0) break;
+            sha1.TransformBlock(data, 0, readed, null, 0);
+
+        }
+        sha1.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+        return sha1.Hash;
+#endif
     }
 
-    public Task<byte[]> ComputeHashAsync(FileInfo info, CancellationToken? token = null)
+    public async Task<byte[]> ComputeHashAsync(FileInfo info, CancellationToken? token = null)
     {
         using var stream = new FileStream(info.FullName, FileMode.Open, FileAccess.Read, FileShare.Read, 16384, true);
-        return ComputeHashAsync(stream, token);
+        return await ComputeHashAsync(stream, token).ConfigureAwait(false);
     }
 }

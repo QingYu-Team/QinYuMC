@@ -1,3 +1,5 @@
+using QinYuMC.Core.Utils;
+
 namespace QinYuMC.Core.Instance.Assembly;
 
 public interface IAssemblyHandler
@@ -6,7 +8,7 @@ public interface IAssemblyHandler
     /// 获取该附加组件的文件列表
     /// </summary>
     /// <returns></returns>
-    public string[] GetAssemblyFiles();
+    public IEnumerable<FileData> GetAssemblyFiles();
     /// <summary>
     /// 
     /// </summary>

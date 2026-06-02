@@ -8,6 +8,8 @@ public record AssemblyInfo
 
     public required Version AssemblyVersion { get; set; }
 
+    public required IAssemblyHandler AssemblyHander { get; set; }
+
     #else
     public string Name { get; set; }
     #endif

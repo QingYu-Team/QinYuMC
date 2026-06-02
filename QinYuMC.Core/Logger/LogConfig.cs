@@ -2,7 +2,7 @@ namespace QinYuMC.Core.Logger;
 
 public class LogConfig
 {
-    #if NET10_0_OR_GREATER
+    #if NET8_0_OR_GREATER
     
     public required string LogBasePath { get; set; }
 
