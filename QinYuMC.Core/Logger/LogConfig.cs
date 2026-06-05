@@ -10,6 +10,12 @@ public class LogConfig
 
     public string LogBasePath { get; set; }
 
+    public long MaxWritePreFile { get; set; }
+
+    public 
+
+    public DateTime OutdateAt { get; set; }
+
 
 #endif
     

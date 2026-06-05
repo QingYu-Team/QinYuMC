@@ -5,9 +5,9 @@ namespace QinYuMC.Core.Logger;
 public class Logger: ILogger
 {
 
-    public event Action FatalTriggered;
+    public event Action? FatalTriggered;
 
-    public event Action<string> OnLog;
+    public event Action<string>? OnLog;
 
     private LogConfig _config;
 
@@ -39,12 +39,27 @@ public class Logger: ILogger
 
     private string? _logPath = null;
 
+    private Stream? _logStream;
+
     public Logger(LogConfig config)
     {
 
         Task.Run(async () =>
         {
+            var currentWriteCount = 0;
+            _logStream = new FileStream(
+                _logPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read, 16384, true);
+            while (true)
+            {
+                _cts.Token.ThrowIfCancellationRequested();
+                if(!_log.TryDequeue(out var log))
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    continue;
+                }
 
+            }
+            
         });
 
         // 注册事件，免得调试的时候炸了不知道哪里炸了

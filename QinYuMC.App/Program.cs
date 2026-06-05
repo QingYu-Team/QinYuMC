@@ -7,6 +7,12 @@ namespace QinYuMC.App;
 [Flow.Scope("app")]
 sealed partial class Program
 {
+    public static string CurrentFolder { get; private set;} = null!;
+    [Flow.Task("init")]
+    public static void StartLoading()
+    {
+        CurrentFolder = Environment.CurrentDirectory;
+    }
 
 
     public static void Main(string[] args)

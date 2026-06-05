@@ -65,7 +65,10 @@
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+        <!--生命周期-->
         <PackageReference Include="FlowNet.Core" Version="0.1.4" />
+        <!--网络-->
+        <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.8" />
     </ItemGroup>
 
     <!-- Localization -->
